@@ -2,29 +2,26 @@ from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app)
-
-values = {
-    'slider1' : 25,
-    'slider2' : 0,
-}
 
 @app.route('/')
 def index():
-    return render_template('index.html', **values)
+    return render_template('index.html')
 
 @socketio.on('connect')
-def test_connect():
-    emit('after connect', {'data':'Lets dance'})
+def handle_connect():
+    print('Client connected')
+    emit('message', {'data': 'Welcome to the WebSocket server!'})
 
-@socketio.on('Slider value changed')
-def value_changed(message):
-    values[message['who']] = message['data']
-    emit('update value', message, broadcast=True)
+@socketio.on('disconnect')
+def handle_disconnect():
+    print('Client disconnected')
+
+@socketio.on('client_message')
+def handle_client_message(data):
+    print(f'Received message from client: {data}')
+    emit('message', {'data': f'Server received: {data}'}, broadcast=True)
 
 if __name__ == '__main__':
-    socketio.run(app, host='0.0.0.0', port=5000)
-
-# TODO: Add the following code to the index.html file
-# - use flask block to make modular components
-# - Try react or vue.js for more complex front-end
+    socketio.run(app)
