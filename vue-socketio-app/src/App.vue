@@ -1,17 +1,19 @@
 <template>
   <div id="app" class="container mt-5 text-center">
-    <h1 class="title mb-5">Vue.js Flask-SocketIO</h1>
-    <div class="mb-3 input-group">
-      <input class="form-control" type="text" v-model="message" placeholder="Enter a message">
-      <button class="btn btn-outline-primary" type="button" @click="sendMessage">Send message</button>
-    </div>
-    <textarea name="responses" id="resp" class="form-control" rows="5" v-model="response" readonly></textarea>
+    <h1 class=" mb-5">Vue.js Flask-SocketIO</h1>
+    <b-input-group :prepend="username" class="mt-3 mb-3 md" size="md">
+      <b-icon icon="person-fill"></b-icon>
+      <b-form-input v-model="message" placeholder="Enter a message"></b-form-input>
+      <b-input-group-append>
+        <b-button variant="outline-primary" @click="sendMessage">Send message</b-button>
+      </b-input-group-append>
+    </b-input-group>
+    <b-form-textarea v-model="response" rows="5" readonly></b-form-textarea>
   </div>
 </template>
 
 <script>
 import io from 'socket.io-client';
-
 
 export default {
   data() {
@@ -49,9 +51,3 @@ export default {
   }
 }
 </script>
-
-<style>
-body {
-    background-color: #f8f9fa;
-}
-</style>

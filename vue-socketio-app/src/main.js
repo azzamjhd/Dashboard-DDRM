@@ -1,5 +1,11 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import './assets/css/bootstrap.min.css'
+import { createApp } from 'vue';
+import App from './App.vue';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-vue-3/dist/bootstrap-vue-3.css';
 
-createApp(App).mount('#app')
+import { BootstrapVue3, IconsPlugin} from 'bootstrap-vue-3';
+
+const app = createApp(App);
+app.use(BootstrapVue3);
+app.use(IconsPlugin);
+app.mount('#app');
